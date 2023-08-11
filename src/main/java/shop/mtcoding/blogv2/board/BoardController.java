@@ -21,8 +21,8 @@ public class BoardController {
     // 4. 핵심로직 호출(서비스)
     // 5. view or data 응답
     @PostMapping("/board/save")
-    public String save(BoardRequest.SaveDTO saveDTO) {
-        boardService.글쓰기(saveDTO, 1);
+    public String save(BoardRequest.SaveDTO saveDTO) { // 데이터 받기
+        boardService.글쓰기(saveDTO, 1); // 핵심로직 호출
         return "redirect:/";
     }
 }
