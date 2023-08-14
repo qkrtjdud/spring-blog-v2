@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.blogv2.user.UserRequest.LoginDTO;
+import shop.mtcoding.blogv2.user.UserRequest.UpdateDTO;
 
 // 핵심로직 처리, 트랜잭션 관리, 예외 처리
 @Service
@@ -42,4 +43,20 @@ public class UserService {
         return user;
 
     }
+
+    public User 회원정보보기(Integer id) {
+        return userRepository.findById(id).get();
+    }
+
+    @Transactional
+    public User 회원수정(UpdateDTO updateDTO, Integer id) {
+        // 1. 조회(영속화)
+        User user = userRepository.findById(id).get();
+
+        // 2. 변경
+        user.setPassword(updateDTO.getPassword());
+
+        return user;
+    } // 3. flush
+
 }
