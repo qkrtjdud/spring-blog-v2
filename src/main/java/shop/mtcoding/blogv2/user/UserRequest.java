@@ -12,4 +12,11 @@ public class UserRequest {
         private String password;
         private String email;
     }
+
+    @Getter
+    @Setter
+    public static class LoginDTO {
+        private String username;
+        private String password;
+    }
 }

@@ -15,9 +15,21 @@ public class UserController {
         return "user/joinForm";
     }
 
-    @PostMapping("join")
+    @PostMapping("/join")
     public String join(UserRequest.JoinDTO joinDTO) {
         userService.회원가입(joinDTO);
         return "redirect:/loginForm";
     }
+
+    @GetMapping("/loginForm")
+    public String loginForm() {
+        return "user/loginForm";
+    }
+
+    @PostMapping("/login")
+    public String login(UserRequest.LoginDTO loginDTO) {
+        userService.로그인(loginDTO);
+        return "redirect:/";
+    }
+
 }
