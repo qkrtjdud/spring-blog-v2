@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import shop.mtcoding.blogv2._core.util.Script;
 
 @Controller
 public class BoardController {
@@ -32,14 +35,15 @@ public class BoardController {
     }
 
     @PostMapping("/board/{id}/delete")
-    public String delete(@PathVariable Integer id) {
+    public @ResponseBody String delete(@PathVariable Integer id) {
         // 인증체크 필요
         boardService.글삭제(id);
-        return "redirect:/";
+        return Script.href("/");
+
     }
 
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable Integer id, Model model) {
+    public String detail(@PathVariable Integer id, Model model) { // request를 써도 되고 모델로 써도 됨!
         Board board = boardService.상세보기(id);
         model.addAttribute("board", board); // request에 담는 것과 동일
         return "board/detail";
