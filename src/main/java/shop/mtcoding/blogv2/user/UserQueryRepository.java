@@ -1,6 +1,7 @@
 package shop.mtcoding.blogv2.user;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,6 +22,13 @@ public class UserQueryRepository {
         // query.setParameter("id", id);
         // return (User) query.getSingleResult();
         return em.find(User.class, id);
+    }
+
+    public User findByUsername(String username) {
+        Query query = em.createQuery("select u from User u where u.username = :username", User.class);
+        query.setParameter("username", username);
+        return (User) query.getSingleResult();
+
     }
 
 }

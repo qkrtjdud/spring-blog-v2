@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.mtcoding.blogv2.user.UserRequest.JoinDTO;
 import shop.mtcoding.blogv2.user.UserRequest.LoginDTO;
 import shop.mtcoding.blogv2.user.UserRequest.UpdateDTO;
 
@@ -16,7 +17,7 @@ public class UserService {
 
     // @Transactional을 서비스에 붙여야 하는이유 - 자원이 한정적이니깐 실행시간을 줄이기 위해,고립성
     @Transactional
-    public void 회원가입(UserRequest.JoinDTO joinDTO) {
+    public void 회원가입(JoinDTO joinDTO) {
         User user = User.builder()
                 .username(joinDTO.getUsername())
                 .password(joinDTO.getPassword())
