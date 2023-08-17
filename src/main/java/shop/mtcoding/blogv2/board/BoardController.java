@@ -16,10 +16,32 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @GetMapping("/board/{id}/updateForm")
+    public String updateForm(@PathVariable Integer id, HttpServletRequest request) {
+        Board board = boardService.상세보기(id);
+        request.setAttribute("board", board);
+        return "/board/updateForm";
+    }
+
+    @PostMapping("/board/{id}/update")
+    public String update(@PathVariable Integer id, BoardRequest.UpdateDTO updateDTO) {
+        // where데이터, body, session값(권한처리할 때)
+        boardService.글수정(id, updateDTO);
+        return "redirect:/board/" + id;
+
+    }
+
+    @PostMapping("/board/{id}/delete")
+    public String delete(@PathVariable Integer id) {
+        // 인증체크 필요
+        boardService.글삭제(id);
+        return "redirect:/";
+    }
+
     @GetMapping("/board/{id}")
     public String detail(@PathVariable Integer id, Model model) {
         Board board = boardService.상세보기(id);
-        model.addAttribute("board", board);
+        model.addAttribute("board", board); // request에 담는 것과 동일
         return "board/detail";
 
     }
