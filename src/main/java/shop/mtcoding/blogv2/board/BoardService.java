@@ -33,7 +33,12 @@ public class BoardService {
 
     public Board 상세보기(Integer id) {
         // board만 가져오면 됨!
-        return boardRepository.findById(id).get();
+        Optional<Board> boardOP = boardRepository.mFindByIdJoinRepliesInUser(id);
+        if (boardOP.isPresent()) {
+            return boardOP.get();
+        } else {
+            throw new RuntimeException(id + "는 찾을 수 없습니다");
+        }
     }
 
     @Transactional

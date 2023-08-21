@@ -19,6 +19,9 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @Autowired
+    private BoardRepository boardRepository;
+
     @GetMapping("/board/{id}/updateForm")
     public String updateForm(@PathVariable Integer id, HttpServletRequest request) {
         Board board = boardService.상세보기(id);
@@ -39,6 +42,13 @@ public class BoardController {
         // 인증체크 필요
         boardService.글삭제(id);
         return Script.href("/");
+
+    }
+
+    @GetMapping("/test/board/{id}")
+    public @ResponseBody Board testdetail(@PathVariable Integer id) { // request를 써도 되고 모델로 써도 됨!
+        Board board = boardRepository.mFindByIdJoinRepliesInUser(id).get();
+        return board;
 
     }
 
