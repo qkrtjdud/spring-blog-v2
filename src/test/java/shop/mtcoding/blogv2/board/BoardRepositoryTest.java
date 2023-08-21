@@ -14,7 +14,7 @@ public class BoardRepositoryTest {
 
     @Test
     public void mFindByIdJoinRepliesInUser_test() {
-        Board board = boardRepository.mFindByIdJoinRepliesInUser(1);
+        Board board = boardRepository.mFindByIdJoinRepliesInUser(1).get();
         System.out.println("board id: " + board.getId());
         System.out.println("board title: " + board.getTitle());
         System.out.println("board content: " + board.getContent());
