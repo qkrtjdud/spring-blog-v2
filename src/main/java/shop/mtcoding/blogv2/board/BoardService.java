@@ -43,7 +43,12 @@ public class BoardService {
 
     public Page<Board> 게시글목록보기(Integer page) {
         Pageable pageable = PageRequest.of(page, 3, Sort.Direction.DESC, "id");
-        return boardRepository.findAll(pageable);
+            return boardRepository.findAll(pageable);
+    }
+
+    public Page<Board> 게시글목록보기(Integer page, String keyword) {
+        Pageable pageable = PageRequest.of(page, 3, Sort.Direction.DESC, "id");
+            return boardRepository.mFindKeyword(keyword,pageable);
     }
 
     public Board 상세보기(Integer id) {

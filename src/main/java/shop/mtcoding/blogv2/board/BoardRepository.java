@@ -3,6 +3,8 @@ package shop.mtcoding.blogv2.board;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,4 +28,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     @Query("select b from Board b left join fetch b.replies r left join fetch r.user ru where b.id =:id")
     Optional<Board> mFindByIdJoinRepliesInUser(@Param("id") Integer id);
 
+    //"select * from board_tb where title like :keyword order by id desc limit :page, :size"
+    @Query("select b from Board b where b.title like %:keyword% order by b.id desc ")
+    Page<Board> mFindKeyword(@Param("keyword") String keyword, Pageable pageable);
 }
