@@ -3,12 +3,16 @@ package shop.mtcoding.blogv2.user;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.mtcoding.blogv2._core.error.ex.MyApiException;
+import shop.mtcoding.blogv2._core.util.ApiUtil;
 import shop.mtcoding.blogv2._core.util.Script;
 
 //유효성검사는 컨트롤러에서 해아함(컨트롤러의 책임이니깐) - 단일책임의 원칙!
@@ -20,6 +24,15 @@ public class UserController {
     @Autowired
     private HttpSession session;
 
+    @GetMapping("/check")
+    public @ResponseBody ApiUtil<String> check(String username) {
+        User user = userService.회원조회(username);
+        if (user != null) {
+            throw new MyApiException("중복된 네임 입니다.");
+        }
+        return new ApiUtil<String>(true, "사용 가능 합니다!");
+    }
+
     // C - V
     @GetMapping("/joinForm")
     public String joinForm() {
@@ -30,7 +43,7 @@ public class UserController {
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO joinDTO) {
         userService.회원가입(joinDTO);
-        return "redirect:/loginForm"; // persist 초기화(clear)
+        return "user/loginForm"; // persist 초기화(clear)
     }
 
     @GetMapping("/loginForm")
@@ -41,9 +54,6 @@ public class UserController {
     @PostMapping("/login")
     public @ResponseBody String login(UserRequest.LoginDTO loginDTO) {
         User sessionUser = userService.로그인(loginDTO);
-        if (sessionUser == null) {
-            return Script.back("로그인 실패");
-        }
         session.setAttribute("sessionUser", sessionUser);
         return Script.href("/");
     }

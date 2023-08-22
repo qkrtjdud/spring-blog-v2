@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,6 +50,8 @@ public class Board {
     /* @OneToMany(양방향) 는 Lazy 전략이 디폴트값 */
     @JsonIgnoreProperties({ "board" })
     @OneToMany(mappedBy = "board"/* FK아니라는 뜻 */, fetch = FetchType.LAZY)
+    // @OneToMany(mappedBy = "board"/* FK아니라는 뜻 */, fetch = FetchType.LAZY, cascade
+    // = CascadeType.ALL /* 보드 삭제시 그보드에 달린 댓글도 삭제*/)
     private List<Reply> replies = new ArrayList<>();
 
     @CreationTimestamp // 만들때 알아서 자동으로 시간을 생성

@@ -1,9 +1,12 @@
 package shop.mtcoding.blogv2.user;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.mtcoding.blogv2._core.error.ex.MyException;
 import shop.mtcoding.blogv2.user.UserRequest.JoinDTO;
 import shop.mtcoding.blogv2.user.UserRequest.LoginDTO;
 import shop.mtcoding.blogv2.user.UserRequest.UpdateDTO;
@@ -32,12 +35,12 @@ public class UserService {
 
         // 유저네임 검증
         if (user == null) {
-            return null;
+            throw new MyException("유저네임이 없습니다!");
         }
 
         // 패스워드 검증
         if (!user.getPassword().equals(loginDTO.getPassword())) {
-            return null;
+            throw new MyException("패스워드가 잘못되었습니다!");
         }
 
         // 로그인 성공
@@ -59,5 +62,9 @@ public class UserService {
 
         return user;
     } // 3. flush
+
+    public User 회원조회(String username) {
+        return userRepository.findByUsername(username);
+    }
 
 }

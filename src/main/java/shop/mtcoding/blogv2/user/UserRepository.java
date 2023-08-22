@@ -10,8 +10,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // @Query(value = "select * from user_tb where id = :id", nativeQuery = true)
     // User mFindById(@Param("id") Integer id);
 
-    // excuteQuery
-    @Query(value = "select * from user_tb where username = :username", nativeQuery = true)
+    @Query("select u from User u where u.username = :username")
     User findByUsername(@Param("username") String username);
 
 }

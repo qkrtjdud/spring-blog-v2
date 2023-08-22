@@ -23,11 +23,11 @@
     <div class="card mt-3">
         <!-- 댓글등록 -->
         <div class="card-body">
-            <form action="/reply/save" method="post">
-                <textarea class="form-control" rows="2" name="comment"></textarea>
+            <form>
+                <input type="hidden" id="boardId" value="{{board.id}}">
+                <textarea class="form-control" rows="2" id="comment"></textarea>
                 <div class="d-flex justify-content-end">
-                    <input type="hidden" name="boardId" value="{{board.id}}">
-                    <button type="submit" class="btn btn-outline-primary mt-1">댓글등록</button>
+                    <button type="button" class="btn btn-outline-primary mt-1" onclick="saveReply()">댓글등록</button>
                 </div>
             </form>
         </div>
@@ -44,9 +44,8 @@
                     <div class="px-1 me-1 bg-primary text-white rounded">{{user.username}}</div>
                     <div>{{comment}}</div>
                 </div>
-                <form action="/reply/{{id}}/delete" method="post">
-                    <input type="hidden" name="boardId" value="{{board.id}}">
-                    <button class="btn">🗑</button>
+                <form>
+                    <button type="button" class="btn" onclick="deleteReply('{{id}}')">🗑</button>
                 </form>
             </div>
             {{/board.replies}}
@@ -54,4 +53,43 @@
     </div>
 </div>
 
+<script>
+    async function deleteReply(id) {
+        let response = await fetch(`/api/reply/${id}/delete`, {
+            method: "delete"
+        });
+        let responseBody = await response.json();
+        if (responseBody.sucuess) {
+            location.reload();
+        } else {
+            alert(responseBody.data);
+        }
+    }
+
+    async function saveReply() {
+        let requestBody = {
+            boardId: document.querySelector("#boardId").value,
+            comment: document.querySelector("#comment").value
+        };
+
+        console.log(requestBody);
+
+        let response = await fetch("/api/reply/save", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        let responseBody = await response.json();
+        console.log(responseBody);
+
+        if (responseBody.sucuess) {
+            location.reload();
+        } else {
+            alert(responseBody.data);
+        }
+    }
+</script>
 {{> layout/footer}}
