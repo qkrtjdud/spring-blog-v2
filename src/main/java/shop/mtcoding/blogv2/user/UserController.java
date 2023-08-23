@@ -3,9 +3,7 @@ package shop.mtcoding.blogv2.user;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +39,10 @@ public class UserController {
 
     // M - V - C
     @PostMapping("/join")
-    public String join(UserRequest.JoinDTO joinDTO) {
+    public @ResponseBody String join(UserRequest.JoinDTO joinDTO) {
+        System.out.println(joinDTO.getPic().getOriginalFilename());
+        System.out.println(joinDTO.getPic().getSize());
+        System.out.println(joinDTO.getPic().getContentType());
         userService.회원가입(joinDTO);
         return "user/loginForm"; // persist 초기화(clear)
     }
