@@ -27,7 +27,7 @@ public class Script {
         StringBuilder sb = new StringBuilder();
         sb.append("<script>");
         sb.append("alert('" + msg + "');");
-        sb.append("location.href=''" + url + ";");
+        sb.append("location.href='" + url + "'';");
         sb.append("</script>");
         return sb.toString();
     }
